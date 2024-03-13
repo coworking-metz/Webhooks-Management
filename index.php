@@ -1,6 +1,7 @@
 <?php
 include __DIR__.'/lib/main.inc.php';
 
+$branch = $_GET['branch'] ?? 'master';
 $action = $_GET['action'] ?? false;
 $slug = $_GET['slug'] ?? false;
 $payload = $_POST['payload']??$_GET['payload']??false;
@@ -14,11 +15,13 @@ if (!$slug)
 if($action == 'deploy') {
     if($payload) {
         $payload = json_decode($payload, true);
-        $ref = $payload['ref']??false;
+        $ref = array_pop(explode('/',$payload['ref']??false));
         if(!$ref) erreur('No ref in payload');
-        if(!strstr($ref, '/master') && !strstr($ref, '/main')) erreur(400, 'Ref is not master');
+        if($ref != $branch) erreur(400, 'Ref is not '.$branch);
+        _log($action, $slug, $ref);
     }
 }
+else _log($action, $slug);
 
 $data = ['action' => $action, 'slug' => $slug];
 
