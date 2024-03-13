@@ -1,27 +1,19 @@
 # Webhooks Management
 
 ## Overview
-This repository contains the necessary components to set up and manage webhooks on a HTTP server. It is designed to provide a straightforward way to handle incoming webhook requests, process them as needed, and optionally trigger other scripts or processes in response.
+This repository is designed for setting up and managing webhooks on a HTTP server. It enables efficient processing of incoming webhook requests and allows for easy integration with other services or scripts. this codebase need a local Redis instance with default hiost/login/port set up. 
 
 ## Structure
-- `.htaccess`: Apache server configuration file to handle request routing and permissions.
-- `index.php`: The main entry point for webhook requests. This file processes incoming requests and dispatches them to the appropriate handler.
-- `lib/main.inc.php`: A library file that contains core functionalities and utilities for processing webhook data.
-- `traitement-webhooks.sh`: An example shell script that could be triggered by the PHP handler as part of the webhook processing routine.
-
-## Installation
-1. Clone this repository to your web server's serving directory.
-2. Ensure `.htaccess` is properly configured to allow access to `index.php` while restricting access to other resources as needed.
-3. Modify `index.php` and `lib/main.inc.php` as necessary to suit your webhook processing requirements.
-4. Set appropriate permissions on `traitement-webhooks.sh` to allow execution as part of the webhook handling process (if used).
-
-## Configuration
-- **Apache Configuration**: Make sure that your Apache configuration allows for `.htaccess` overrides. This is crucial for the routing and security settings defined in `.htaccess` to take effect.
-- **Webhook Processing**: Customize `index.php` to parse and process incoming webhook payloads according to your specific needs. Utilize functions and utilities defined in `lib/main.inc.php` for more efficient handling.
-- **Shell Script Execution**: If utilizing `traitement-webhooks.sh` or any other external scripts, configure these scripts to perform the desired actions (e.g., data processing, notifications, etc.). Ensure these scripts are securely accessible and executable by the server process.
+- `.htaccess`: Apache server configuration file for request routing and permissions.
+- `cloudflare.sh`: A script for interacting with Cloudflare APIs, for purging cache in response to webhooks.
+- `deploy.sh`: A deployment script that can be used to automate the deployment process of your web applications.
+- `index.php`: The main entry point for incoming webhook requests. Processes requests and store them in redis.
+- `lib/main.inc.php`: Contains core functionalities and utilities for webhook processing.
+- `service.sh`: A generic service script that can be adapted for various background tasks or services.
+- `traitement-webhooks.sh`: The script that is executed by the service, who will read the events in local redis and launch actions.
 
 ## Usage
-To use the Webhooks Management system, direct incoming webhook payloads to `http://{your-server}/path-to-webhooks/index.php`. The system will process each request according to the logic defined in `index.php` and `main.inc.php`, with the possibility of triggering additional scripts like `traitement-webhooks.sh`.
+Direct webhooks to `http://{your-server}/[path-to-webhooks]/[action]/[slug]`. The system is designed to process each request according to your custom logic in `index.php` and the utility library, with options to trigger additional scripts for automation or notification purposes. The events are stored in the local redis
 
 ## Production behaviour
 On the server, the script service.sh is executed in a service (usually stored in /lib/systemd/system/webhooks.service)
@@ -49,14 +41,6 @@ sudo systemctl stop webhooks.service
 sudo systemctl restart webhooks.service
 sudo systemctl status webhooks.service
 ```
-
-## Security Considerations
-- Always validate and sanitize incoming data to prevent injection attacks.
-- Restrict access to the server and application files using `.htaccess` or equivalent server configuration.
-- Regularly update your server and script components to mitigate vulnerabilities.
-
-## Contributing
-Contributions to improve the Webhooks Management system are welcome. Please submit pull requests or issues through the repository's issue tracker.
 
 ## License
 Under the MIT Licence for open source projects.
