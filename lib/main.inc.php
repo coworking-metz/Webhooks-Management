@@ -5,7 +5,7 @@ if(isset($_GET['debug'])) {
     ini_set('display_errors', 'On');    
 }
 function _log() {
-    file_get_contents("https://coworking-metz-ag.requestcatcher.com/webhooks/".implode('/', func_get_args()));
+    file_get_contents("https://coworking-metz-log.requestcatcher.com/webhooks/".implode('/', func_get_args()));
 }
 
 function erreur($code = 500, $message = '') {

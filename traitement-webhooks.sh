@@ -14,7 +14,7 @@ for key in $keys; do
   redis-cli DEL "$key" > /dev/null
   # Lance le script avec la valeur en argument
   "$BASEDIR/deploy.sh" --site="$VALUE" --force
-  wget -q --spider "https://coworking-metz-ag.requestcatcher.com/webhooks/deploy/$VALUE/done"
+  wget -q --spider "https://coworking-metz-log.requestcatcher.com/webhooks/deploy/$VALUE/done"
 done
 
 # Récupère les clés de Redis commençant par 'webhook-cloudflare'
@@ -30,7 +30,7 @@ if [ "$KEY_CF" -eq 1 ]; then
 
     # Delete the key after executing the script
     redis-cli del webhook-cloudflare-purge > /dev/null
-    wget -q --spider https://coworking-metz-ag.requestcatcher.com/webhooks/cloudflare/purge/done
+    wget -q --spider https://coworking-metz-log.requestcatcher.com/webhooks/cloudflare/purge/done
 fi
 
 
