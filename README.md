@@ -6,7 +6,7 @@ This repository is designed for setting up and managing webhooks on a HTTP serve
 ## Structure
 - `.htaccess`: Apache server configuration file for request routing and permissions.
 - `cloudflare.sh`: A script for interacting with Cloudflare APIs, for purging cache in response to webhooks.
-- `deploy.sh`: A deployment script that can be used to automate the deployment process of your web applications.
+- `webhook-deploy.sh`: A deployment script that can be used to automate the deployment process of your web applications.
 - `index.php`: The main entry point for incoming webhook requests. Processes requests and store them in redis.
 - `lib/main.inc.php`: Contains core functionalities and utilities for webhook processing.
 - `service.sh`: A generic service script that can be adapted for various background tasks or services.

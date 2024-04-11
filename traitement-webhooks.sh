@@ -13,7 +13,7 @@ for key in $keys; do
   VALUE=$(redis-cli -n 5 GET "$key")
   redis-cli -n 5 DEL "$key" > /dev/null
   # Lance le script avec la valeur en argument
-  "$BASEDIR/deploy.sh" --site="$VALUE" --force
+  "$BASEDIR/webhook-deploy.sh" --site="$VALUE" --force
   wget -q --spider "https://coworking-metz-log.requestcatcher.com/webhooks/deploy/$VALUE/done"
 done
 
