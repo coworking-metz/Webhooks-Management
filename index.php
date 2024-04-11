@@ -27,6 +27,7 @@ $data = ['action' => $action, 'slug' => $slug];
 
 $redis = new Redis();
 $redis->connect('127.0.0.1', 6379);
+$redis->select(5);
 $redis->set('webhook-'.$action.'-'.$slug, $slug);
 
 header('Content-type: application/json');

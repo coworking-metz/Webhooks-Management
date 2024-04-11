@@ -85,7 +85,7 @@ run_deploy_script() {
 # Function to run build command from package.json if exists
 run_build_command() {
     if [ -f "$FOLDER/package.json" ]; then
-        BUILD_CMD=$(cat "$FOLDER/package.json" | grep '"build":' | awk -F '"' '{print $4}')
+        BUILD_CMD=$(jq -r '.scripts.build' "$FOLDER/package.json")
         if [ -n "$BUILD_CMD" ]; then
             echo "Running build command: $BUILD_CMD"
             npm --prefix "$FOLDER" ci
@@ -98,14 +98,14 @@ run_build_command() {
     fi
 }
 
-purge_cloudflare() {
-    wget --spider -q https://webhooks.coworking-metz.fr/cloudflare/purge
-}
+# purge_cloudflare() {
+#     wget --spider -q https://webhooks.coworking-metz.fr/cloudflare/purge
+# }
 
 # Main script execution
 update_repo
 if [ $UPDATED -eq 1 ] || [ $FORCE_UPDATE -eq 1 ]; then
     run_deploy_script
     run_build_command
-    purge_cloudflare
+    # purge_cloudflare
 fi
