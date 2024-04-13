@@ -86,7 +86,7 @@ run_deploy_script() {
 run_build_command() {
     if [ -f "$FOLDER/package.json" ]; then
         BUILD_CMD=$(jq -r '.scripts.build' "$FOLDER/package.json")
-        if [ -n "$BUILD_CMD" ]; then
+        if [ -n "$BUILD_CMD" ] && [ "$BUILD_CMD" != "null" ]; then
             echo "Running build command: $BUILD_CMD"
             npm --prefix "$FOLDER" ci
             npm --prefix "$FOLDER" run build
